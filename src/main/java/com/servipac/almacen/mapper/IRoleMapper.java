@@ -1,10 +1,15 @@
 package com.servipac.almacen.mapper;
 
-import org.springframework.stereotype.Component;
+import com.servipac.almacen.persistence.model.Role;
+import com.servipac.almacen.rest.dto.request.RoleRequest;
+import com.servipac.almacen.rest.dto.response.RoleResponse;
 
-@Component
-public class RoleMapper {
+public interface IRoleMapper {
 
+
+    RoleResponse toResponse(Role role);
+
+    Role toEntity(RoleRequest roleRequest);
 
 
 }
