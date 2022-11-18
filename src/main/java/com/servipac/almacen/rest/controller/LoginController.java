@@ -1,7 +1,7 @@
-package com.servipac.almacen.rest.controller;
+package com.servipac.almacen.security.rest.controller;
 
-import com.servipac.almacen.rest.dto.request.LoginRequest;
-import com.servipac.almacen.rest.dto.response.LoginResponse;
+import com.servipac.almacen.security.rest.dto.request.LoginRequest;
+import com.servipac.almacen.security.rest.dto.response.LoginResponse;
 import com.servipac.almacen.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

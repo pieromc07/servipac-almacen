@@ -1,4 +1,4 @@
-package com.servipac.almacen.rest.dto.response;
+package com.servipac.almacen.security.rest.dto.response;
 
 import lombok.Setter;
 import lombok.Getter;
