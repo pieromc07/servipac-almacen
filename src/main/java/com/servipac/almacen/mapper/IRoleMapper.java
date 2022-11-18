@@ -6,10 +6,7 @@ import com.servipac.almacen.rest.dto.response.RoleResponse;
 
 public interface IRoleMapper {
 
-
     RoleResponse toResponse(Role role);
-
     Role toEntity(RoleRequest roleRequest);
-
 
 }

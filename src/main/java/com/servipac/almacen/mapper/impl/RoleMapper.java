@@ -13,7 +13,7 @@ public class RoleMapper implements IRoleMapper {
     public RoleResponse toResponse(Role role) {
         return RoleResponse.builder()
                 .id(role.getRoleId())
-                .name(role.getName())
+                .name(role.getDescription())
                 .state(role.getState())
                 .build();
     }
@@ -22,6 +22,8 @@ public class RoleMapper implements IRoleMapper {
     public Role toEntity(RoleRequest roleRequest) {
         return Role.builder()
                 .description(roleRequest.getName().toUpperCase())
+                .state(true)
+                .name("ROLE_"+roleRequest.getName().toUpperCase())
                 .build();
     }
 }
