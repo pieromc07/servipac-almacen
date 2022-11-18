@@ -8,9 +8,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://localhost:5432/almacen_servipac_db
-    username: postgres
-    password: 123456
+    url: jdbc:postgresql://ec2-52-70-45-163.compute-1.amazonaws.com/d7b53kfqhdr9ek
+    username: epojoxhepcjvhc
+    password: 5addf4b37fbb7b1497512d78d20bf40ae3d9e537e8eb7f2180253d1b842998d7
     driver-class-name: org.postgresql.Driver
 server:
   port: 8080
