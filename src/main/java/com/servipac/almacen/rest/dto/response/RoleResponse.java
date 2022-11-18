@@ -1,4 +1,4 @@
-package com.servipac.almacen.security.rest.dto.response;
+package com.servipac.almacen.rest.dto.response;
 
 import lombok.Setter;
 import lombok.Getter;
@@ -14,8 +14,6 @@ import lombok.Builder;
 public class RoleResponse {
 
     private Long id;
-
     private String name;
-
     private Boolean state;
 }
