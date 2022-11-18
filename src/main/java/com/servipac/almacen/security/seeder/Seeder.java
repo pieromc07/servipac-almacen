@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -16,9 +17,11 @@ import java.util.List;
 @Configuration
 public class Seeder {
 
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -41,8 +44,18 @@ public class Seeder {
         if(userRepository.count() == 0) {
             userRepository.saveAll(
                     List.of(
-                            User.builder().username("pieromc").password("abcd1234#").email("pieromc@gmail.com").status(true).role(roleRepository.findByName("ROLE_ADMIN")).build(),
-                            User.builder().username("eliastg").password("abcd1234#").email("eliastg@gmail.com").status(true).role(roleRepository.findByName("ROLE_ALMACEN")).build()
+                            User.builder().username("pieromc".toUpperCase())
+                                    .password(passwordEncoder.encode("abcd1234#"))
+                                    .email("pieromc@gmail.com")
+                                    .status(true)
+                                    .role(roleRepository.findByName("ROLE_ADMIN"))
+                                    .build(),
+                            User.builder().username("eliastg".toUpperCase())
+                                    .password(passwordEncoder.encode("abcd1234#"))
+                                    .email("eliastg@gmail.com")
+                                    .status(true)
+                                    .role(roleRepository.findByName("ROLE_ALMACEN"))
+                                    .build()
                     )
             );
         }

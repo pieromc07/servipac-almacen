@@ -15,6 +15,7 @@ public class DefaultExceptionHandler {
     private static final String ERROR_MESSAGE_NOT_FOUND = "No se ha encontrado el recurso solicitado";
     private static final String ERROR_MESSAGE_ALREADY_EXISTS = "El recurso ya existe";
     private static final String ERROR_MESSAGE_IN_USE = "El recurso esta en uso";
+    private static final String ERROR_MESSAGE_INVALID_CREDENTIALS = "Credenciales invalidas";
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
@@ -46,6 +47,14 @@ public class DefaultExceptionHandler {
                 ERROR_MESSAGE_IN_USE,
                 e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException e) {
+        ErrorResponse errorResponse = buildError(HttpStatus.UNAUTHORIZED,
+                ERROR_MESSAGE_INVALID_CREDENTIALS,
+                e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     private ErrorResponse buildError(HttpStatus httpStatus, String message, List<String> moreInfo) {

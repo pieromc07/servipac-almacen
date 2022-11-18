@@ -1,4 +1,4 @@
-package com.servipac.almacen.security.rest.dto.response;
+package com.servipac.almacen.rest.dto.response;
 
 import lombok.Setter;
 import lombok.Getter;
@@ -13,6 +13,7 @@ import lombok.Builder;
 @Builder
 public class LoginResponse {
 
-    private String username;
-    
+    private String name;
+    private String role;
+    private String token;
 }

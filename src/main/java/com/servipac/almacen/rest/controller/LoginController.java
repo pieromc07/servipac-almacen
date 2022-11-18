@@ -1,7 +1,7 @@
-package com.servipac.almacen.security.rest.controller;
+package com.servipac.almacen.rest.controller;
 
-import com.servipac.almacen.security.rest.dto.request.LoginRequest;
-import com.servipac.almacen.security.rest.dto.response.LoginResponse;
+import com.servipac.almacen.rest.dto.request.LoginRequest;
+import com.servipac.almacen.rest.dto.response.LoginResponse;
 import com.servipac.almacen.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class LoginController {
 
@@ -17,12 +19,11 @@ public class LoginController {
     private ILoginService loginService;
 
     @CrossOrigin
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+    @PostMapping(value = "/login",
+        produces = "application/json",
+        consumes = "application/json")
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse loginResponse = loginService.login(loginRequest);
-        if(loginResponse != null) {
-            return ResponseEntity.ok(loginResponse);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(loginResponse);
     }
 }
