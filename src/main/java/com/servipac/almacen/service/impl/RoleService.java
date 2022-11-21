@@ -22,30 +22,25 @@ public class RoleService implements IRoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private IRoleMapper roleMapper;
-
     @Override
     public RoleResponse findByName(String name) {
         Role role = roleRepository.findByName("ROLE"+name.toUpperCase());
         return roleMapper.toResponse(role);
     }
-
     @Override
     public RoleResponse findByRoleId(Long id) {
         Role role = roleRepository.findById(id).orElseThrow(() -> new NotFoundException("El Rol no existe"));
         System.out.println(role.toString());
         return roleMapper.toResponse(role);
     }
-
     @Override
     public RoleResponse create(RoleRequest role) {
         Role entity = roleMapper.toEntity(role);
-        if (roleRepository.findByName(entity.getName()) != null) {
+        if (existsRole(entity.getName())) {
             throw new AlreadyExistsException("El Rol " + entity.getDescription() + " ya existe");
         }
         entity.builder()
@@ -54,20 +49,19 @@ public class RoleService implements IRoleService {
         entity = roleRepository.save(entity);
         return roleMapper.toResponse(entity);
     }
-
     @Override
     public RoleResponse update(RoleRequest roleRequest, Long roleId) {
-
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new NotFoundException("El Rol no existe"));
-        Role entity = roleMapper.toEntity(roleRequest);
-        if (roleRepository.findByName(entity.getName()) != null) {
-            throw new AlreadyExistsException("El Rol " + entity.getDescription() + " ya existe");
+        if(!equalsRole(role.getName(), roleRequest.getName())){
+            if (existsRole(roleRequest.getName())) {
+                throw new AlreadyExistsException("El Rol " + roleRequest.getName() + " ya existe");
+            }
         }
+        Role entity = roleMapper.toEntity(roleRequest);
         entity.setRoleId(role.getRoleId());
         roleRepository.save(entity);
         return roleMapper.toResponse(entity);
     }
-
     @Override
     public void delete(Long roleId) {
         Role entity = roleRepository.findById(roleId).orElseThrow(() -> new NotFoundException("El Rol no existe"));
@@ -77,7 +71,6 @@ public class RoleService implements IRoleService {
         }
         roleRepository.delete(entity);
     }
-
     @Override
     public List<RoleResponse> findAll() {
         List<Role> roles = roleRepository.findAll();
@@ -87,4 +80,11 @@ public class RoleService implements IRoleService {
         });
         return roleResponses;
     }
+    private Boolean existsRole(String name){
+        return roleRepository.existsRoleByName(name);
+    }
+    private Boolean equalsRole(String name, String requestName){
+        return name.equals(requestName);
+    }
+
 }
