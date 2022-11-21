@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class RoleController {
@@ -18,7 +19,7 @@ public class RoleController {
 
     @CrossOrigin
     @GetMapping("/roles")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<List<RoleResponse>> findAll() {
         return ResponseEntity.ok(roleService.findAll());
     }
 
