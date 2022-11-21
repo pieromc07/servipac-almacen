@@ -52,7 +52,7 @@ public class RoleService implements IRoleService {
     @Override
     public RoleResponse update(RoleRequest roleRequest, Long roleId) {
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new NotFoundException("El Rol no existe"));
-        if(!equalsRole(role.getName(), roleRequest.getName())){
+        if(!equalsRole(role.getDescription(), roleRequest.getName())) {
             if (existsRole(roleRequest.getName())) {
                 throw new AlreadyExistsException("El Rol " + roleRequest.getName() + " ya existe");
             }
@@ -81,10 +81,10 @@ public class RoleService implements IRoleService {
         return roleResponses;
     }
     private Boolean existsRole(String name){
-        return roleRepository.existsRoleByName(name);
+        return roleRepository.existsRoleByDescription(name.toUpperCase());
     }
     private Boolean equalsRole(String name, String requestName){
-        return name.equals(requestName);
+        return name.equals(requestName.toUpperCase());
     }
 
 }
