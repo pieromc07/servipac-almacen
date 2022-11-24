@@ -22,5 +22,5 @@ public class UserRequest {
     @NotBlank(message = "La contraseña es obligatoria")
     private String password;
     @NotBlank(message = "El rol es obligatorio")
-    private Long roleId;
+    private Long role;
 }

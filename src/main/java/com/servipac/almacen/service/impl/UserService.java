@@ -6,6 +6,7 @@ import com.servipac.almacen.mapper.IUserMapper;
 import com.servipac.almacen.persistence.model.User;
 import com.servipac.almacen.persistence.repository.RoleRepository;
 import com.servipac.almacen.persistence.repository.UserRepository;
+import com.servipac.almacen.rest.dto.request.UpdateStatusRequest;
 import com.servipac.almacen.rest.dto.request.UserRequest;
 import com.servipac.almacen.rest.dto.response.UserResponse;
 import com.servipac.almacen.security.common.JwtUtils;
@@ -31,12 +32,12 @@ public class UserService implements IUserService{
         if(existsByUsername(userRequest.getUsername()) || existsByEmail(userRequest.getEmail())){
             throw new AlreadyExistsException("El usuario ya existe");
         }
-        if(roleRepository.findByRoleId(userRequest.getRoleId()) == null) {
+        if(roleRepository.findByRoleId(userRequest.getRole()) == null) {
             throw new NotFoundException("El rol no existe");
         }
         User user = userMapper.toUser(userRequest);
         user.setStatus(true);
-        user.setRole(roleRepository.findByRoleId(userRequest.getRoleId()));
+        user.setRole(roleRepository.findByRoleId(userRequest.getRole()));
         return userMapper.toUserResponse(userRepository.save(user));
     }
     @Override
@@ -65,12 +66,12 @@ public class UserService implements IUserService{
             }
         }
 
-        if(roleRepository.findByRoleId(userRequest.getRoleId()) == null) {
+        if(roleRepository.findByRoleId(userRequest.getRole()) == null) {
             throw new NotFoundException("El rol no existe");
         }
         user.setUsername(userRequest.getUsername().toUpperCase());
         user.setEmail(userRequest.getEmail());
-        user.setRole(roleRepository.findByRoleId(userRequest.getRoleId()));
+        user.setRole(roleRepository.findByRoleId(userRequest.getRole()));
         return userMapper.toUserResponse(userRepository.save(user));
     }
     @Override
@@ -78,6 +79,20 @@ public class UserService implements IUserService{
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("El usuario no existe"));
         user.setStatus(false);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserResponse> findAllStatusFalse() {
+        List<UserResponse> users = new ArrayList<>();
+        userRepository.findAllByStatusIsFalse().forEach(user -> users.add(userMapper.toUserResponse(user)));
+        return users;
+    }
+
+    @Override
+    public UserResponse updateStatus(Long id, UpdateStatusRequest updateStatusRequest) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("El usuario no existe"));
+        user.setStatus(updateStatusRequest.getStatus());
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
 

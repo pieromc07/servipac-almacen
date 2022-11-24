@@ -1,11 +1,14 @@
 package com.servipac.almacen.rest.controller;
 
+import com.servipac.almacen.rest.dto.request.UpdateStatusRequest;
 import com.servipac.almacen.rest.dto.request.UserRequest;
 import com.servipac.almacen.rest.dto.response.UserResponse;
 import com.servipac.almacen.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class UserController {
@@ -47,4 +50,16 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @CrossOrigin
+    @GetMapping("/users/inactive")
+    public ResponseEntity<?> findAllInactive() {
+        return ResponseEntity.ok(userService.findAllStatusFalse());
+    }
+
+    @CrossOrigin
+    @PutMapping(value = "/users/update/status/{id}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<UserResponse> updateStatus(@RequestBody @Valid UpdateStatusRequest statusRequest, @PathVariable Long id) {
+        UserResponse userResponse = userService.updateStatus(id, statusRequest);
+        return ResponseEntity.ok(userResponse);
+    }
  }

@@ -11,10 +11,11 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
-    // todos los usuarios con estatus true
     List<User> findAllByStatusIsTrue();
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     List<User> findByRole(Role role);
+    List<User> findAllByStatusIsFalse();
+
 
 }
