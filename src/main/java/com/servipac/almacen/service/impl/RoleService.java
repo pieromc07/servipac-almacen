@@ -40,7 +40,7 @@ public class RoleService implements IRoleService {
     @Override
     public RoleResponse create(RoleRequest role) {
         Role entity = roleMapper.toEntity(role);
-        if (existsRole(entity.getName())) {
+        if (existsRole(role.getName())) {
             throw new AlreadyExistsException("El Rol " + entity.getDescription() + " ya existe");
         }
         entity.builder()
@@ -81,7 +81,7 @@ public class RoleService implements IRoleService {
         return roleResponses;
     }
     private Boolean existsRole(String name){
-        return roleRepository.existsRoleByDescription(name.toUpperCase());
+        return roleRepository.existsRoleByName("ROLE_"+name.toUpperCase());
     }
     private Boolean equalsRole(String name, String requestName){
         return name.equals(requestName.toUpperCase());

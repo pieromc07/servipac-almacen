@@ -2,6 +2,7 @@ package com.servipac.almacen.rest.controller;
 
 import com.servipac.almacen.rest.dto.request.UpdateStatusRequest;
 import com.servipac.almacen.rest.dto.request.UserRequest;
+import com.servipac.almacen.rest.dto.request.UserUpdateRequest;
 import com.servipac.almacen.rest.dto.response.UserResponse;
 import com.servipac.almacen.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UserController {
 
     @CrossOrigin
     @PutMapping(value = "/users/update/{id}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest user, @PathVariable Long id) {
+    public ResponseEntity<UserResponse> updateUser(@RequestBody UserUpdateRequest user, @PathVariable Long id) {
         UserResponse userResponse = userService.update(id, user);
         return ResponseEntity.ok(userResponse);
     }

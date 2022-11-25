@@ -8,6 +8,7 @@ import com.servipac.almacen.persistence.repository.RoleRepository;
 import com.servipac.almacen.persistence.repository.UserRepository;
 import com.servipac.almacen.rest.dto.request.UpdateStatusRequest;
 import com.servipac.almacen.rest.dto.request.UserRequest;
+import com.servipac.almacen.rest.dto.request.UserUpdateRequest;
 import com.servipac.almacen.rest.dto.response.UserResponse;
 import com.servipac.almacen.security.common.JwtUtils;
 import com.servipac.almacen.service.IUserService;
@@ -52,7 +53,7 @@ public class UserService implements IUserService{
         return userMapper.toUserResponse(user);
     }
     @Override
-    public UserResponse update(Long id, UserRequest userRequest) {
+    public UserResponse update(Long id, UserUpdateRequest userRequest) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("El usuario no existe"));
         if(!equalsEmail(user.getEmail(), userRequest.getEmail())) {
             if(userRepository.existsByEmail(userRequest.getEmail())) {

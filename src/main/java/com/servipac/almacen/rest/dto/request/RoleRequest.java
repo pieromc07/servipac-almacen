@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class RoleRequest {
 
-    @NotNull(message = "The role name cannot be null")
-    @NotBlank(message = "The role name cannot be blank")
+    @NotNull(message = "El nombre del rol es obligatorio")
+    @NotBlank(message = "El nombre del rol no puede estar vacío")
     private String name;
 }

@@ -12,6 +12,8 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginRequest {
 
     @NotBlank(message = "El nombre de usuario no puede estar vacío")
