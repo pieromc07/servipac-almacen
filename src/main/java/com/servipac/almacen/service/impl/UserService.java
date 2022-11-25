@@ -55,15 +55,16 @@ public class UserService implements IUserService{
     @Override
     public UserResponse update(Long id, UserUpdateRequest userRequest) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("El usuario no existe"));
-        if(!equalsEmail(user.getEmail(), userRequest.getEmail())) {
-            if(userRepository.existsByEmail(userRequest.getEmail())) {
-                throw new AlreadyExistsException("El email " + userRequest.getEmail() + " ya existe");
+
+        if (!user.getEmail().equals(userRequest.getEmail())){
+            if(existsByEmail(userRequest.getEmail())){
+                throw new AlreadyExistsException("El email ya existe");
             }
         }
 
-        if(!equalsUsername(user.getUsername(), userRequest.getUsername())) {
-            if(userRepository.existsByUsername(userRequest.getUsername())) {
-                throw new AlreadyExistsException("El usuario " + userRequest.getUsername() + " ya existe");
+        if (!user.getUsername().equals(userRequest.getUsername().toUpperCase())){
+            if(existsByUsername(userRequest.getUsername().toUpperCase())){
+                throw new AlreadyExistsException("El usuario ya existe");
             }
         }
 
